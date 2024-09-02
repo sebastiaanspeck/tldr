@@ -37,7 +37,10 @@ def check_short_long_option_with_mnemonic(path: Path) -> str:
             if command_match:
                 description_match = re.search(rf"\[({command_match[1]})]", lines[i - 2])
                 if description_match and command_match[1] == description_match[1]:
-                    return create_colored_line(Colors.BLUE, "needs an update since the page has mnemonics and {{-short|--long}}-option")
+                    return create_colored_line(
+                        Colors.BLUE,
+                        "needs an update since the page has mnemonics and {{-short|--long}}-option",
+                    )
 
     return ""
 
@@ -49,7 +52,9 @@ def check_long_short_option(path: Path) -> str:
         for i in range(1, len(lines)):
             command_match = re.search(r"\{\{--\w+(-\w+)*\|-[a-z]\}\}", lines[i])
             if command_match:
-                return create_colored_line(Colors.BLUE, "needs an update for flipping {{--long|-short}}-option")
+                return create_colored_line(
+                    Colors.BLUE, "needs an update for flipping {{--long|-short}}-option"
+                )
 
     return ""
 
@@ -72,7 +77,9 @@ def check_page(path: Path, language_to_check: str = "") -> str:
         # return empty status to indicate that the page is skipped
         return ""
 
-    check_short_long_option_with_mnemonic_status = check_short_long_option_with_mnemonic(path)
+    check_short_long_option_with_mnemonic_status = (
+        check_short_long_option_with_mnemonic(path)
+    )
     long_short_option_status = check_long_short_option(path)
 
     return check_short_long_option_with_mnemonic_status + long_short_option_status
