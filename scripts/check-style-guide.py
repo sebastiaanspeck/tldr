@@ -28,16 +28,28 @@ from _common import (
 )
 
 
-def check_short_long_option(path: Path) -> str:
+def check_short_long_option_with_mnemonic(path: Path) -> str:
     with path.open(encoding="utf-8") as f:
         lines = f.readlines()
 
         for i in range(1, len(lines)):
-            command_match = re.search(r"\{\{-([a-z]{1})\|--\w+(-\w+)*\}\}", lines[i])
+            command_match = re.search(r"\{\{-([a-z])\|--\w+(-\w+)*\}\}", lines[i])
             if command_match:
                 description_match = re.search(rf"\[({command_match[1]})]", lines[i - 2])
                 if description_match and command_match[1] == description_match[1]:
-                    return create_colored_line(Colors.BLUE, "needs a manual check")
+                    return create_colored_line(Colors.BLUE, "needs an update since the page has mnemonics and {{-short|--long}}-option")
+
+    return ""
+
+
+def check_long_short_option(path: Path) -> str:
+    with path.open(encoding="utf-8") as f:
+        lines = f.readlines()
+
+        for i in range(1, len(lines)):
+            command_match = re.search(r"\{\{--\w+(-\w+)*\|-[a-z]\}\}", lines[i])
+            if command_match:
+                return create_colored_line(Colors.BLUE, "needs an update for flipping {{--long|-short}}-option")
 
     return ""
 
@@ -52,7 +64,7 @@ def check_page(path: Path, language_to_check: str = "") -> str:
     Returns:
     str: Execution status
          "" if the page matches the Style Guide"
-         "\x1b[34mpage needs an update"
+         "\x1b[34mpage needs a manual check"
     """
 
     locale = get_locale(path)
@@ -60,7 +72,10 @@ def check_page(path: Path, language_to_check: str = "") -> str:
         # return empty status to indicate that the page is skipped
         return ""
 
-    return check_short_long_option(path)
+    check_short_long_option_with_mnemonic_status = check_short_long_option_with_mnemonic(path)
+    long_short_option_status = check_long_short_option(path)
+
+    return check_short_long_option_with_mnemonic_status + long_short_option_status
 
 
 def main():
