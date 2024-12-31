@@ -30,9 +30,10 @@ class Colors(str, Enum):
 
 
 def test_ignore_files():
-    assert IGNORE_FILES == (".DS_Store",)
-    assert ".DS_Store" in IGNORE_FILES
-    assert "tldr.md" not in IGNORE_FILES
+    ds_store = ".DS_Store"
+    assert IGNORE_FILES == (ds_store,)
+    assert ds_store in IGNORE_FILES
+    assert "awk.md" not in IGNORE_FILES
 
 
 def get_tldr_root(lookup_path: Path = None) -> Path:

@@ -75,7 +75,6 @@ labels = {
     "fa": "اطلاعات بیشتر:",
     "fi": "Lisätietoja:",
     "fr": "Plus d'informations :",
-    "sh": "Više informacija:",
     "hi": "अधिक जानकारी:",
     "id": "Informasi lebih lanjut:",
     "it": "Maggiori informazioni:",
@@ -245,12 +244,48 @@ def sync(
     return paths
 
 
-def main():
+def parse_arguments():
     parser = create_argument_parser(
         'Sets the "More information" link for all translations of a page'
     )
     parser.add_argument("link", type=str, nargs="?", default="")
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def process_page(pages_dirs, target_paths, args):
+    target_paths += get_target_paths(args.page, pages_dirs)
+
+    for path in target_paths:
+        rel_path = "/".join(path.parts[-3:])
+        status = set_link(path, args.link, args.dry_run, args.language)
+        if status != "":
+            print(create_colored_line(Colors.GREEN, f"{rel_path} {status}"))
+
+    return target_paths
+
+
+def process_sync(pages_dirs, target_paths, args, root):
+    pages_dirs.remove(root / "pages")
+    en_path = root / "pages"
+    platforms = [i.name for i in en_path.iterdir() if i.name not in IGNORE_FILES]
+    for platform in platforms:
+        platform_path = en_path / platform
+        commands = [
+            f"{platform}/{page.name}"
+            for page in platform_path.iterdir()
+            if page.name not in IGNORE_FILES
+        ]
+        for command in commands:
+            link = get_link(root / "pages" / command)
+            if link != "":
+                target_paths += sync(
+                    root, pages_dirs, command, link, args.dry_run, args.language
+                )
+    return target_paths
+
+
+def main():
+    args = parse_arguments()
 
     root = get_tldr_root()
     pages_dirs = get_pages_dir(root)
@@ -259,32 +294,11 @@ def main():
 
     # Use '--page' option
     if args.page != "":
-        target_paths += get_target_paths(args.page, pages_dirs)
-
-        for path in target_paths:
-            rel_path = "/".join(path.parts[-3:])
-            status = set_link(path, args.link, args.dry_run, args.language)
-            if status != "":
-                print(create_colored_line(Colors.GREEN, f"{rel_path} {status}"))
+        target_paths += process_page(pages_dirs, target_paths, args)
 
     # Use '--sync' option
     elif args.sync:
-        pages_dirs.remove(root / "pages")
-        en_path = root / "pages"
-        platforms = [i.name for i in en_path.iterdir() if i.name not in IGNORE_FILES]
-        for platform in platforms:
-            platform_path = en_path / platform
-            commands = [
-                f"{platform}/{page.name}"
-                for page in platform_path.iterdir()
-                if page.name not in IGNORE_FILES
-            ]
-            for command in commands:
-                link = get_link(root / "pages" / command)
-                if link != "":
-                    target_paths += sync(
-                        root, pages_dirs, command, link, args.dry_run, args.language
-                    )
+        target_paths += process_sync(pages_dirs, target_paths, args, root)
 
     # Use '--stage' option
     if args.stage and not args.dry_run and len(target_paths) > 0:

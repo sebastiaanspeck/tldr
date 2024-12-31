@@ -133,7 +133,7 @@ def update_page(
     old_common_part: str,
     new_common_part: str,
     dry_run: bool,
-) -> None:
+) -> bool:
     with page_path.open("r", encoding="utf-8") as file:
         page_text = file.read()
 
