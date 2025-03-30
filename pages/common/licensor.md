@@ -7,13 +7,13 @@
 
 `licensor {{MIT}} > {{LICENSE}}`
 
-- Write the MIT license with a [p]laceholder copyright notice to a file named `LICENSE`:
+- Write the MIT license with a placeholder copyright notice to a file named `LICENSE`:
 
-`licensor -p {{MIT}} > {{LICENSE}}`
+`licensor {{[-p|--keep-placeholder]}} {{MIT}} > {{LICENSE}}`
 
 - Specify a copyright holder named Bobby Tables:
 
-`licensor {{MIT}} {{"Bobby Tables"}} > {{LICENSE}}`
+`licensor {{MIT}} "{{Bobby Tables}}" > {{LICENSE}}`
 
 - Specify licence exceptions with a WITH expression:
 
@@ -21,8 +21,8 @@
 
 - List all available licenses:
 
-`licensor --licenses`
+`licensor {{[-l|--licenses]}}`
 
 - List all available exceptions:
 
-`licensor --exceptions`
+`licensor {{[-e|--exceptions]}}`

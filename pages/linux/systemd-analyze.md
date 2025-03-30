@@ -4,6 +4,10 @@
 > Show timing details about the boot process of units (services, mount points, devices, sockets).
 > More information: <https://www.freedesktop.org/software/systemd/man/systemd-analyze.html>.
 
+- Print the last system startup time:
+
+`systemd-analyze`
+
 - List all running units, ordered by the time they took to initialize:
 
 `systemd-analyze blame`
@@ -18,7 +22,7 @@
 
 - Plot a dependency graph and convert it to an SVG file:
 
-`systemd-analyze dot | dot -T{{svg}} > {{path/to/file.svg}}`
+`systemd-analyze dot | dot -T {{svg}} > {{path/to/file.svg}}`
 
 - Show security scores of running units:
 

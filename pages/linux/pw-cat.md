@@ -1,7 +1,7 @@
 # pw-cat
 
 > Play and record audio files through PipeWire.
-> More information: <https://fedoraproject.org/wiki/QA:Testcase_PipeWire_PipeWire_CLI>.
+> More information: <https://docs.pipewire.org/page_man_pw-cat_1.html>.
 
 - Play a WAV file over the default target:
 
@@ -18,3 +18,7 @@
 - Record a sample recording using a different sample rate:
 
 `pw-cat --record --rate {{6000}} {{path/to/file.wav}}`
+
+- Display help:
+
+`pw-cat {{[-h|--help]}}`

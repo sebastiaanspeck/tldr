@@ -13,4 +13,8 @@
 
 - Wait for a job to finish:
 
-`wait %{{N}}`
+`wait %{{job_number}}`
+
+- Display help:
+
+`wait --help`

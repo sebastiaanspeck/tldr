@@ -1,7 +1,7 @@
 # more
 
 > Toon een bestand interactief, met de mogelijkheid om te scrollen en te zoeken.
-> Zie ook: `less`.
+> Bekijk ook: `less`.
 > Meer informatie: <https://manned.org/more.1p>.
 
 - Open een bestand:
@@ -16,14 +16,14 @@
 
 `<Spatie>`
 
-- Zoek naar een string (druk op `n` om naar de volgende overeenkomst te gaan):
+- Zoek naar een string (druk op `<n>` om naar de volgende overeenkomst te gaan):
 
-`/{{iets}}`
+`</>{{iets}}<Enter>`
 
 - Afsluiten:
 
-`q`
+`<q>`
 
 - Toon help over interactieve commando's:
 
-`h`
+`<h>`
