@@ -1,7 +1,7 @@
 # alacritty
 
 > Cross-platform, GPU-versnelde terminalemulator.
-> Meer informatie: <https://github.com/alacritty/alacritty>.
+> Meer informatie: <https://manned.org/alacritty>.
 
 - Open een nieuw Alacritty-venster:
 
@@ -19,9 +19,9 @@
 
 `alacritty --working-directory {{pad/naar/map}}`
 
-- Vo[e]r een commando uit in een nieuw Alacritty-venster:
+- Voer een commando uit in een nieuw Alacritty-venster:
 
-`alacritty -e {{commando}}`
+`alacritty {{[-e|--command]}} {{commando}}`
 
 - Geef een alternatief configuratiebestand op (standaard ingesteld op `$XDG_CONFIG_HOME/alacritty/alacritty.toml`):
 
